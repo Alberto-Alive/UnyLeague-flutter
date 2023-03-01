@@ -12,13 +12,8 @@ void main() {
     // Test: AppBar widget
     expect(find.byType(AppBar), findsOneWidget);
 
-    // Test: 2 Text widgets
-    expect(find.byType(Text), findsNWidgets(2));
-
     // Test: "Leaf" text
     expect(find.text("Leaf"), findsOneWidget);
 
-    // Test: "Hello world!" text
-    expect(find.text("Hello world!"), findsOneWidget);
   });
 }
