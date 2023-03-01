@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:take_one/helper/demo_values.dart';
+import 'package:take_one/view/presentation/themes.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({Key? key}) : super(key: key);
@@ -7,9 +10,18 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 5 / 2,
+      aspectRatio: 6 / 3,
       child: Card(
-        child: Column(children: <Widget>[_Post(), _PostDetails()]),
+        elevation: 2,
+        child: Container(
+          margin: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(4.0),
+          child: Column(children: <Widget>[
+            _Post(),
+            Divider(color: Colors.grey),
+            _PostDetails()
+          ]),
+        ),
       ),
     );
   }
@@ -46,6 +58,7 @@ class _PostTitleAndSummary extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text(title, key: Key('postTitle'), style: titleTheme),
+          SizedBox(height: 2.0),
           Text(summary, style: summaryTheme),
         ],
       ),
@@ -68,7 +81,7 @@ class _PostDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: <Widget>[_UserImage(), _UserNameAndEmail()],
+      children: <Widget>[_UserImage(), _UserNameAndEmail(), _PostTimeStamp()],
     );
   }
 }
@@ -79,14 +92,17 @@ class _UserNameAndEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 7,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(DemoValues.userName),
-          Text(DemoValues.userEmail),
-        ],
+      flex: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(DemoValues.userName),
+            Text(DemoValues.userEmail),
+          ],
+        ),
       ),
     );
   }
@@ -102,6 +118,22 @@ class _UserImage extends StatelessWidget {
       child: CircleAvatar(
         backgroundImage: AssetImage(DemoValues.userImage),
       ),
+    );
+  }
+}
+
+class _PostTimeStamp extends StatelessWidget {
+  const _PostTimeStamp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle? timeTheme = Theme.of(context).textTheme.titleSmall?.copyWith(
+          fontStyle: FontStyle.italic,
+          color: Colors.grey,
+        );
+    return Expanded(
+      flex: 2,
+      child: Text(DemoValues.postTime, style: timeTheme),
     );
   }
 }
