@@ -4,25 +4,46 @@ import 'package:flutter/material.dart';
 import 'package:take_one/helper/demo_values.dart';
 import 'package:take_one/view/presentation/themes.dart';
 
+bool _isLandscape(BuildContext context) =>
+    MediaQuery
+        .of(context)
+        .orientation == Orientation.landscape;
+
 class PostCard extends StatelessWidget {
   const PostCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 6 / 3,
-      child: Card(
-        elevation: 2,
-        child: Container(
-          margin: const EdgeInsets.all(4.0),
-          padding: const EdgeInsets.all(4.0),
-          child: Column(children: <Widget>[
-            _Post(),
-            Divider(color: Colors.grey),
-            _PostDetails()
-          ]),
-        ),
-      ),
+    final double aspectRatio = _isLandscape(context) ? 6 / 2 : 6 / 3;
+    return GestureDetector(
+        onTap:
+            () {
+              // TODO: Handle tapping
+            },
+        child: AspectRatio(
+          aspectRatio: aspectRatio,
+          child: Card(
+              elevation: 2,
+              child: AspectRatio(
+                aspectRatio: aspectRatio,
+                child: Card(
+                  elevation: 2,
+                  child: Container(
+                    padding: const EdgeInsets.all(4.0),
+                    margin: const EdgeInsets.all(4.0),
+                    child: Column(
+                      children: <Widget>[
+                        _Post(),
+                        Divider(color: Colors.grey),
+                        _PostDetails(),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+          )
+          ,
+        );
     );
   }
 }
@@ -46,8 +67,14 @@ class _PostTitleAndSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? titleTheme = Theme.of(context).textTheme.titleMedium;
-    final TextStyle? summaryTheme = Theme.of(context).textTheme.titleSmall;
+    final TextStyle? titleTheme = Theme
+        .of(context)
+        .textTheme
+        .titleMedium;
+    final TextStyle? summaryTheme = Theme
+        .of(context)
+        .textTheme
+        .titleSmall;
     final String title = DemoValues.postTitle;
     final String summary = DemoValues.postSummary;
 
@@ -127,10 +154,14 @@ class _PostTimeStamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? timeTheme = Theme.of(context).textTheme.titleSmall?.copyWith(
-          fontStyle: FontStyle.italic,
-          color: Colors.grey,
-        );
+    final TextStyle? timeTheme = Theme
+        .of(context)
+        .textTheme
+        .titleSmall
+        ?.copyWith(
+      fontStyle: FontStyle.italic,
+      color: Colors.grey,
+    );
     return Expanded(
       flex: 2,
       child: Text(DemoValues.postTime, style: timeTheme),
